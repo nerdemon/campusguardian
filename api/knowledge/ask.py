@@ -61,7 +61,7 @@ class handler(BaseHTTPRequestHandler):
             doc_context = FALLBACK_POLICY
             source = "Campus_Policies_Handbook.pdf"
             try:
-                chunks_res = sb.table("document_chunks").select("content, filename").limit(10).execute()
+                chunks_res = sb.table("document_chunks").select("content, filename").order("created_at", desc=True).limit(10).execute()
                 if chunks_res.data:
                     doc_context = "\n\n---\n\n".join(row["content"] for row in chunks_res.data)
                     source = chunks_res.data[0].get("filename", source)

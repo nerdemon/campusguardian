@@ -51,10 +51,10 @@ class handler(BaseHTTPRequestHandler):
                 return
 
             # Embed each chunk using Gemini and store in Supabase
-            ai = genai.Client(api_key=os.environ.get('VITE_GEMINI_API_KEY', ''))
+            ai = genai.Client(api_key=os.environ.get('VITE_GEMINI_API_KEY') or os.environ.get('GEMINI_API_KEY', ''))
             sb = create_client(
-                os.environ.get('VITE_SUPABASE_URL', ''),
-                os.environ.get('VITE_SUPABASE_KEY', '')
+                os.environ.get('VITE_SUPABASE_URL') or os.environ.get('SUPABASE_URL', ''),
+                os.environ.get('VITE_SUPABASE_KEY') or os.environ.get('SUPABASE_KEY', '')
             )
 
             rows = []

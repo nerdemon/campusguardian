@@ -7,8 +7,8 @@ class handler(BaseHTTPRequestHandler):
     def do_GET(self):
         try:
             sb = create_client(
-                os.environ.get('VITE_SUPABASE_URL', ''),
-                os.environ.get('VITE_SUPABASE_KEY', '')
+                os.environ.get('VITE_SUPABASE_URL') or os.environ.get('SUPABASE_URL', ''),
+                os.environ.get('VITE_SUPABASE_KEY') or os.environ.get('SUPABASE_KEY', '')
             )
             res = sb.table("sensor_data").select("*").order("id", desc=True).limit(50).execute()
             latest = {}

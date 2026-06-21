@@ -53,8 +53,8 @@ class handler(BaseHTTPRequestHandler):
                 return
 
             sb = create_client(
-                os.environ.get('VITE_SUPABASE_URL', ''),
-                os.environ.get('VITE_SUPABASE_KEY', '')
+                os.environ.get('VITE_SUPABASE_URL') or os.environ.get('SUPABASE_URL', ''),
+                os.environ.get('VITE_SUPABASE_KEY') or os.environ.get('SUPABASE_KEY', '')
             )
 
             # Try to get document chunks from Supabase (ingested via n8n)
@@ -90,7 +90,7 @@ QUESTION: {question}
 
 ANSWER:"""
 
-            ai = genai.Client(api_key=os.environ.get('VITE_GEMINI_API_KEY', ''))
+            ai = genai.Client(api_key=os.environ.get('VITE_GEMINI_API_KEY') or os.environ.get('GEMINI_API_KEY', ''))
             res = ai.models.generate_content(
                 model='gemini-2.0-flash-lite',
                 contents=prompt,

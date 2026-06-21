@@ -12,8 +12,8 @@ class handler(BaseHTTPRequestHandler):
             room_id = self.path.rstrip('/').split('/')[-1]
 
             sb = create_client(
-                os.environ.get('SUPABASE_URL', ''),
-                os.environ.get('SUPABASE_KEY', '')
+                os.environ.get('VITE_SUPABASE_URL', ''),
+                os.environ.get('VITE_SUPABASE_KEY', '')
             )
             res = sb.table("sensor_data").select("*").eq("room_id", room_id).order("timestamp", desc=True).limit(1).execute()
 
@@ -34,7 +34,7 @@ Output exactly one valid JSON object with these keys:
 "reason" (Short explanation),
 "recommendation" (Actionable advice)"""
 
-            ai = genai.Client(api_key=os.environ.get('GEMINI_API_KEY', ''))
+            ai = genai.Client(api_key=os.environ.get('VITE_GEMINI_API_KEY', ''))
             ai_res = ai.models.generate_content(
                 model='gemini-2.0-flash-lite',
                 contents=prompt,

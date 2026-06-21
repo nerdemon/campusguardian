@@ -61,8 +61,8 @@ class handler(BaseHTTPRequestHandler):
 
             # Fetch live sensor data from Supabase
             sb = create_client(
-                os.environ.get('SUPABASE_URL', ''),
-                os.environ.get('SUPABASE_KEY', '')
+                os.environ.get('VITE_SUPABASE_URL', ''),
+                os.environ.get('VITE_SUPABASE_KEY', '')
             )
             sensor_res = sb.table("sensor_data").select("*").limit(5).execute()
             live_data = "CURRENT LIVE SENSOR READINGS:\n"
@@ -85,7 +85,7 @@ QUESTION: {question}
 
 ANSWER:"""
 
-            ai = genai.Client(api_key=os.environ.get('GEMINI_API_KEY', ''))
+            ai = genai.Client(api_key=os.environ.get('VITE_GEMINI_API_KEY', ''))
             res = ai.models.generate_content(
                 model='gemini-2.0-flash-lite',
                 contents=prompt,

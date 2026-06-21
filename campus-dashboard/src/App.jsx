@@ -1,6 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { Shield, MessageSquare, Send, MapPin, AlertTriangle, CheckCircle2, Activity, BrainCircuit, Wifi, LogIn, LogOut, Volume2, VolumeX, Download, Moon } from 'lucide-react';
 
+// API base URL: set VITE_API_URL in .env or Vercel env vars
+// Falls back to localhost for local development
+const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+
 const generateRandomMac = () => {
   return Array.from({length: 6}, () => Math.floor(Math.random()*256).toString(16).padStart(2, '0').toUpperCase()).join(':');
 };
@@ -25,7 +29,7 @@ export default function App() {
   useEffect(() => {
     const fetchSensorData = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/sensors/latest');
+        const response = await fetch(`${API_BASE}/api/sensors/latest`);
         const result = await response.json();
         
         if (result.status === 'success' && result.data) {
@@ -102,7 +106,7 @@ export default function App() {
     setAiInsights(prev => ({ ...prev, [roomId]: { loading: true } }));
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/evaluate/${roomId}`, {
+      const response = await fetch(`${API_BASE}/api/evaluate/${roomId}`, {
         method: 'POST'
       });
       const result = await response.json();
@@ -128,7 +132,7 @@ export default function App() {
     setLoading(true);
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/knowledge/ask', {
+      const response = await fetch(`${API_BASE}/api/knowledge/ask`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: userMessage }),

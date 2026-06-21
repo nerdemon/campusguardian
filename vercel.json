@@ -1,0 +1,9 @@
+{
+  "framework": "vite",
+  "buildCommand": "cd campus-dashboard && npm install && npm run build",
+  "outputDirectory": "campus-dashboard/dist",
+  "installCommand": "cd campus-dashboard && npm install",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

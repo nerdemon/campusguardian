@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { Shield, MessageSquare, Send, MapPin, AlertTriangle, CheckCircle2, Activity, BrainCircuit, Wifi, LogIn, LogOut, Volume2, VolumeX, Download, Moon } from 'lucide-react';
 
-// API base URL: set VITE_API_URL in .env or Vercel env vars
-// Falls back to localhost for local development
-const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+// In production (Vercel): API is on the same domain, use relative URLs ''
+// In local dev: set VITE_API_URL=http://127.0.0.1:8000 in campus-dashboard/.env
+const API_BASE = import.meta.env.VITE_API_URL ?? '';
 
 const generateRandomMac = () => {
   return Array.from({length: 6}, () => Math.floor(Math.random()*256).toString(16).padStart(2, '0').toUpperCase()).join(':');

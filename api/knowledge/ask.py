@@ -5,8 +5,8 @@ from supabase import create_client
 from google import genai
 from google.genai import types
 
-# Campus policy context (replaces ChromaDB for Vercel deployment)
-CAMPUS_POLICY_CONTEXT = """
+# Fallback campus policy (used if no documents ingested yet)
+FALLBACK_POLICY = """
 CAMPUS POLICIES & RULES - Official Handbook
 
 HOSTEL REGULATIONS:
@@ -15,37 +15,30 @@ HOSTEL REGULATIONS:
 - Late entries require a signed register and a valid reason.
 - Exceeding three late entries per semester leads to a meeting with the Dean.
 - Visitors are allowed in common rooms between 4:00 PM and 8:00 PM with a registered photo ID.
-- Male visitors are not permitted in female hostel blocks and vice versa.
 
 LABORATORY & SAFETY RULES:
 - Students in the electronics lab must wear static-free wristbands at all times.
 - Never leave soldering irons or heating equipment unattended.
 - In emergencies like fires or chemical spills, evacuate to the South Field immediately.
 - Avoid using elevators during any emergency evacuation.
-- Lab equipment must be signed out before use and signed back in after.
 - Food and beverages are strictly prohibited inside all laboratories.
 
 ENERGY CONSERVATION:
 - The last person to leave any room is responsible for turning off lights and AC.
-- Air conditioning should not be set below 24°C as per energy policy.
-- Report any equipment left running unnecessarily to the facilities helpdesk.
+- Air conditioning should not be set below 24 degrees C as per energy policy.
 
 ACADEMIC INTEGRITY & DISCIPLINE:
 - Ragging is strictly prohibited and results in immediate suspension and possible expulsion.
-- Plagiarism in academic submissions leads to a zero grade and disciplinary action.
-- Mobile phones must be on silent mode during all lectures and examinations.
 - Attendance below 75% in any subject leads to detention from examinations.
+- Mobile phones must be on silent mode during all lectures and examinations.
 
-CAFETERIA & COMMON AREAS:
-- Cafeteria timings: Breakfast 7:30-9:00 AM, Lunch 12:00-2:00 PM, Dinner 7:00-9:00 PM.
-- Students must clear their trays and maintain cleanliness in common areas.
-- Smoking and consumption of alcohol on campus premises is strictly prohibited.
+CAFETERIA TIMINGS:
+- Breakfast 7:30-9:00 AM, Lunch 12:00-2:00 PM, Dinner 7:00-9:00 PM.
 
 LIBRARY RULES:
 - Library hours: Monday-Saturday 8:00 AM to 9:00 PM, Sunday 10:00 AM to 5:00 PM.
-- Books can be borrowed for 14 days with a fine of Rs. 5 per day for overdue returns.
-- Silence must be maintained in the library at all times.
-- A maximum of 3 books can be borrowed at one time per student.
+- Books can be borrowed for 14 days; fine of Rs. 5 per day for overdue returns.
+- Maximum 3 books can be borrowed at one time.
 """
 
 class handler(BaseHTTPRequestHandler):
@@ -59,11 +52,23 @@ class handler(BaseHTTPRequestHandler):
                 self._respond(400, {"detail": "Question is required"})
                 return
 
-            # Fetch live sensor data from Supabase
             sb = create_client(
                 os.environ.get('VITE_SUPABASE_URL', ''),
                 os.environ.get('VITE_SUPABASE_KEY', '')
             )
+
+            # Try to get document chunks from Supabase (ingested via n8n)
+            doc_context = FALLBACK_POLICY
+            source = "Campus_Policies_Handbook.pdf"
+            try:
+                chunks_res = sb.table("document_chunks").select("content, filename").limit(10).execute()
+                if chunks_res.data:
+                    doc_context = "\n\n---\n\n".join(row["content"] for row in chunks_res.data)
+                    source = chunks_res.data[0].get("filename", source)
+            except Exception:
+                pass  # Fall back to embedded policy
+
+            # Fetch live sensor data
             sensor_res = sb.table("sensor_data").select("*").limit(5).execute()
             live_data = "CURRENT LIVE SENSOR READINGS:\n"
             for row in (sensor_res.data or []):
@@ -73,13 +78,13 @@ class handler(BaseHTTPRequestHandler):
 You have access to official campus policy documents AND live hardware sensor data.
 
 Answer the user's question using ONLY the Document Context and Live Sensor Data below.
-If the answer is not contained in either, explicitly state you don't have that information. Do not guess.
-Provide your answer in plain text. Do NOT use markdown formatting, asterisks, or bold tags. Keep it conversational and clean.
+If the answer is not contained in either, explicitly state you don't have that information.
+Provide your answer in plain text. Do NOT use markdown formatting or asterisks.
 
 {live_data}
 
 DOCUMENT CONTEXT:
-{CAMPUS_POLICY_CONTEXT}
+{doc_context}
 
 QUESTION: {question}
 
@@ -91,7 +96,7 @@ ANSWER:"""
                 contents=prompt,
                 config=types.GenerateContentConfig(temperature=0.2)
             )
-            self._respond(200, {"answer": res.text, "source": "Campus_Policies_Handbook.pdf"})
+            self._respond(200, {"answer": res.text, "source": source})
         except Exception as e:
             self._respond(500, {"detail": str(e)})
 

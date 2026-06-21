@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Abstract – CampusGuardian AI | Team AUTOMATA</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #ffffff;
+      color: #111827;
+      line-height: 1.7;
+    }
+
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 0 auto;
+      padding: 18mm 20mm 16mm 20mm;
+      background: #fff;
+    }
+
+    /* ── Header ── */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #10b981;
+      margin-bottom: 22px;
+    }
+    .header-left h1 {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #111827;
+    }
+    .header-left h1 span { color: #10b981; }
+    .header-left .tagline {
+      font-size: 11px;
+      color: #6b7280;
+      font-weight: 400;
+      margin-top: 3px;
+      letter-spacing: 0.01em;
+    }
+    .header-right { text-align: right; }
+    .team-badge {
+      display: inline-block;
+      background: #10b981;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 4px;
+      margin-bottom: 4px;
+    }
+    .header-right .track {
+      font-size: 10px;
+      color: #6b7280;
+      display: block;
+    }
+    .header-right .date {
+      font-size: 10px;
+      color: #9ca3af;
+      display: block;
+      margin-top: 2px;
+    }
+
+    /* ── Section ── */
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #10b981;
+      margin-bottom: 6px;
+      margin-top: 20px;
+    }
+    h2 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+    p {
+      font-size: 11.5px;
+      color: #374151;
+      line-height: 1.75;
+      margin-bottom: 10px;
+    }
+    strong { color: #111827; font-weight: 600; }
+
+    /* ── Highlight Box ── */
+    .abstract-box {
+      background: #f0fdf4;
+      border-left: 3px solid #10b981;
+      border-radius: 0 6px 6px 0;
+      padding: 12px 16px;
+      margin: 12px 0 16px 0;
+    }
+    .abstract-box p {
+      font-size: 12px;
+      color: #1f2937;
+      margin: 0;
+      font-style: italic;
+      line-height: 1.7;
+    }
+
+    /* ── Pillars ── */
+    .pillars {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 12px 0 16px 0;
+    }
+    .pillar {
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 10px 12px;
+      background: #fafafa;
+    }
+    .pillar-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .pillar-title .icon { font-size: 13px; }
+    .pillar p {
+      font-size: 10.5px;
+      color: #6b7280;
+      margin: 0;
+      line-height: 1.55;
+    }
+
+    /* ── Stack Tags ── */
+    .stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 10px 0 16px 0;
+    }
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px solid;
+      font-weight: 500;
+    }
+    .tag.green { color: #059669; border-color: #a7f3d0; background: #ecfdf5; }
+    .tag.blue  { color: #2563eb; border-color: #bfdbfe; background: #eff6ff; }
+    .tag.purple{ color: #7c3aed; border-color: #ddd6fe; background: #f5f3ff; }
+    .tag.orange{ color: #d97706; border-color: #fed7aa; background: #fff7ed; }
+
+    /* ── Metrics ── */
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin: 12px 0 16px 0;
+    }
+    .metric {
+      text-align: center;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 10px 6px;
+      background: #fafafa;
+    }
+    .metric .val {
+      font-size: 18px;
+      font-weight: 800;
+      color: #10b981;
+      letter-spacing: -0.03em;
+      display: block;
+    }
+    .metric .lbl {
+      font-size: 9.5px;
+      color: #6b7280;
+      display: block;
+      margin-top: 2px;
+      line-height: 1.3;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      margin-top: 22px;
+      padding-top: 10px;
+      border-top: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer span {
+      font-size: 9px;
+      color: #9ca3af;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* ── Print ── */
+    @media print {
+      body { background: #fff; }
+      .page { margin: 0; padding: 15mm 18mm 14mm 18mm; }
+      @page { size: A4; margin: 0; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <h1>Campus<span>Guardian</span> AI</h1>
+      <div class="tagline">Autonomous Smart Campus Ecosystem · Multi-Agent Digital Twin</div>
+    </div>
+    <div class="header-right">
+      <div class="team-badge">Team AUTOMATA</div>
+      <span class="track">AI Agents &amp; Intelligent Automation Track</span>
+      <span class="date">June 2026</span>
+    </div>
+  </div>
+
+  <!-- Abstract -->
+  <div class="section-label">Abstract of Proposed Solution</div>
+  <h2>CampusGuardian AI: An Autonomous Multi-Agent Smart Campus Ecosystem</h2>
+
+  <div class="abstract-box">
+    <p>
+      CampusGuardian AI is a fully autonomous, multi-agent intelligent system that acts as the central nervous system of a modern university campus. By unifying real-time IoT telemetry, AI-driven risk evaluation, network-layer attendance tracking, and a Retrieval-Augmented Generation (RAG) knowledge engine under a single intelligent platform, the system eliminates four chronic institutional inefficiencies — energy waste, manual attendance, reactive security, and inaccessible policy knowledge — without requiring human intervention.
+    </p>
+  </div>
+
+  <!-- Problem -->
+  <div class="section-label">Problem Statement</div>
+  <p>
+    Modern university campuses operate as fragmented, data-rich but insight-poor environments. Classrooms run HVAC and lighting at full capacity in empty rooms, costing institutions millions annually in preventable energy waste. Faculty lose 5–10 minutes per class to manual roll-calls. Security teams must monitor hundreds of camera feeds simultaneously with no intelligent triage. Campus policy documents remain locked in PDFs — inaccessible, unsearchable, and unactioned. No unified system currently exists to perceive, reason, and act across all these domains in real time.
+  </p>
+
+  <!-- Solution -->
+  <div class="section-label">Proposed Solution — Four Autonomous Pillars</div>
+  <div class="pillars">
+    <div class="pillar">
+      <div class="pillar-title"><span class="icon">🌿</span> Smart Climate &amp; Energy Engine</div>
+      <p>Monitors real-time occupancy and environmental telemetry. When a room is empty but HVAC/lights are active, the system autonomously flags waste and triggers energy-saving protocols — targeting up to 40% reduction in campus energy expenditure.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-title"><span class="icon">📡</span> Autonomous Academic Ledger</div>
+      <p>Eliminates manual attendance via network-layer MAC address proximity detection. When a student's device connects to classroom Wi-Fi during a scheduled lecture, they are instantly logged as present — creating tamper-proof, timestamped records automatically.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-title"><span class="icon">🛡️</span> AI Security &amp; Risk Evaluator</div>
+      <p>Every room is continuously evaluated by Google Gemini 2.5 Flash, returning a structured risk verdict — Safe, Warning, or Critical — with actionable recommendations in under 5 seconds. After-hours motion in empty labs is instantly classified as a high-severity intrusion.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-title"><span class="icon">🧠</span> Institutional Knowledge RAG Agent</div>
+      <p>An n8n-automated pipeline ingests campus policy PDFs into a ChromaDB vector store using Gemini Embedding API. Students query campus rules, timetables, and policies in natural language and receive grounded, cited answers fused with live sensor context.</p>
+    </div>
+  </div>
+
+  <!-- Architecture -->
+  <div class="section-label">Technical Architecture</div>
+  <p>
+    The system is built on a <strong>Digital Twin architecture</strong> where a Python-based sensor simulator (replaceable with physical IoT hardware with zero backend changes) continuously injects environmental telemetry into a <strong>FastAPI backend</strong>. This backend persists state to <strong>Supabase (PostgreSQL)</strong> and employs an <strong>Agentic Router Pattern</strong> — routine data is logged instantly while anomalies trigger the <strong>Gemini 2.5 Flash</strong> reasoning engine for contextual evaluation. A <strong>React + Vite</strong> dashboard provides real-time visualization. The full stack is deployed via <strong>Vercel</strong> (frontend) with the AI inference layer running on cloud services — no proprietary hardware required.
+  </p>
+
+  <!-- Tech Stack -->
+  <div class="section-label">Technology Stack</div>
+  <div class="stack">
+    <span class="tag green">React + Vite</span>
+    <span class="tag green">FastAPI (Python)</span>
+    <span class="tag green">RAG Architecture</span>
+    <span class="tag blue">Supabase (PostgreSQL)</span>
+    <span class="tag blue">ChromaDB Vector Store</span>
+    <span class="tag blue">REST API</span>
+    <span class="tag purple">Google Gemini 2.5 Flash</span>
+    <span class="tag purple">Gemini Embedding API</span>
+    <span class="tag purple">Multi-Agent System</span>
+    <span class="tag orange">n8n Workflow Automation</span>
+    <span class="tag orange">Digital Twin Simulator</span>
+    <span class="tag orange">Web Speech API</span>
+  </div>
+
+  <!-- Impact -->
+  <div class="section-label">Projected Impact</div>
+  <div class="metrics">
+    <div class="metric">
+      <span class="val">40%</span>
+      <span class="lbl">Energy Reduction</span>
+    </div>
+    <div class="metric">
+      <span class="val">100%</span>
+      <span class="lbl">Automated Attendance</span>
+    </div>
+    <div class="metric">
+      <span class="val">&lt;5s</span>
+      <span class="lbl">AI Risk Response Time</span>
+    </div>
+    <div class="metric">
+      <span class="val">∞</span>
+      <span class="lbl">Policy Queries Served</span>
+    </div>
+  </div>
+
+  <!-- Novelty -->
+  <div class="section-label">Innovation &amp; Novelty</div>
+  <p>
+    Unlike single-feature smart campus solutions, CampusGuardian AI is the only system that unifies all four institutional domains under one autonomous AI reasoning layer. The <strong>Agentic Router Pattern</strong> ensures low latency for standard telemetry while reserving LLM inference for genuine anomalies — a cost-efficient and scalable design. The Digital Twin architecture makes the platform <strong>production-ready from day one</strong>: the live hackathon demo uses simulated sensors, but physical IoT integration requires no backend changes. Every element of the demo dashboard is wired to live backend services and a real cloud database — this is not a prototype.
+  </p>
+
+  <!-- Footer -->
+  <div class="footer">
+    <span>Team AUTOMATA · CampusGuardian AI · AI Agents &amp; Intelligent Automation Track</span>
+    <span>Stack: React · FastAPI · Gemini AI · ChromaDB · Supabase · n8n</span>
+  </div>
+
+</div>
+</body>
+</html>
